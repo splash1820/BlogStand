@@ -1,11 +1,40 @@
+import { useEffect, useState } from 'react'
 import config from './config/appwriteConfig.js'
+import authService from './services/auth.js'
+import {login,logout} from './store/authSlice.js'
+import { Outlet } from 'react-router-dom';
+import {Header,Footer,InputField} from './components/index.js'
 
 function App() {
-  console.log(config.appwriteProjectId)
-  return (
-    <>
-    </>
-  )
+  const [loading,setLoading] = useState(false);
+
+  useEffect(()=>{
+    authService.getCurrentUser()
+      .then(userData =>{
+        if(userData){
+          login({userData})
+        }else{
+          logout();
+        }
+      })
+      .finally(()=>setLoading(false));
+  },[])
+
+  return !loading ? (
+    <div className='min-h-screen flex flex-wrap'>
+      <div className='w-full'>  
+        <Header/>
+        <main>
+          TODO: {/* <Outlet/> */}
+        </main>
+        <InputField labelText="input field"/>
+        <Footer/>
+        
+      </div>
+    </div>)
+    :
+    "Loading"
+
 }
 
 export default App
