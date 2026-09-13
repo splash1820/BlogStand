@@ -25,7 +25,7 @@ class StorageService{
         }
     }
 
-    async getImagePreview(imageId,{}){
+    async getImagePreview(imageId){
         try {
             const result = this.storage.getFilePreview({
                 bucketId:config.appwriteBucketId,
