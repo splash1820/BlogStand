@@ -1,3 +1,4 @@
+import { ID } from 'appwrite';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
@@ -30,6 +31,10 @@ export default function Header() {
         name:"Add Blog",
         slug:"/add-blog",
         active:loggedIn
+      },{
+        name:"My Blogs",
+        slug:"/my-blogs",
+        active:loggedIn
       }
     ]
 
@@ -51,8 +56,9 @@ export default function Header() {
               item.active && <NavLink  
                 to={item.slug}
                 className={linkStyles}
+                key={ID.unique()}
               >
-                {item}
+                {item.name}
               </NavLink>
             ))}
           </nav>

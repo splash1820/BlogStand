@@ -17,7 +17,9 @@ function SelectBtn({
       <select 
         className={`px-4 py-2 rounded-lg bg-white text-black ${className}`}
         ref={ref}
-        id={id}>
+        id={id}
+        {...props}
+        >
         {options?.map((option)=>(
             <option key={option} value={option}>
                 {option}

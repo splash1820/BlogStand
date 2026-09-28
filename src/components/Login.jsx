@@ -12,7 +12,7 @@ function Login() {
     const dispatch = useDispatch();
     const [error,setError] = useState("");
     
-    const [register,handleSubmit] = useForm();
+    const {register,handleSubmit} = useForm({mode:"onBlur"});//the mode tells react-hook-form when to validate the input fields. onBlur means it will validate when the user leaves the input field.
 
      const handleLogin = async (data)=>{
         setError("");
@@ -31,9 +31,9 @@ function Login() {
     }
 
   return (
-    <div className='flex items-center justify-center w-full'>
+    <div className='flex flex-col items-center justify-center w-full'>
       <div className='mb-2 flex justify-center'>
-                <span className="inline-block w-full max-w-[100px]">
+                <span className="inline-block w-full max-w-25">
                     <p className='text-2xl'>BlogStand</p>
                 </span>
       </div>
@@ -54,10 +54,10 @@ function Login() {
             placeholder="Enter your email" //handled by ...props syntax
             //syntax -> ...register(key,optionsObj)
             {...register("email",{
-                required:true,
+                required:"Email is required",//we can even give boolean value instead of string, but then the error message will be default one
                 validate:{
                     //get regex from https://regexr.com/
-                    matchPattern:(value)=> /([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}/
+                    matchPattern:(value)=> /([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}/g
                                     .test(value) || 
                                     "Email address must be a valid address"
                 }
@@ -68,10 +68,10 @@ function Login() {
             placeholder="Enter your password" //handled by ...props syntax
             //syntax -> ...register(key,optionsObj)
             {...register("password",{
-                required:true,
+                required:"Password is required",//we can even give boolean value instead of string, but then the error message will be default one
                 validate:{
                     //get regex from https://regexr.com/
-                    matchPattern:(value)=> /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
+                    matchPattern:(value)=> /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/g
                                     .test(value) || 
                                     `- at least 8 characters
                                     - must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number
@@ -80,8 +80,7 @@ function Login() {
             })}
         />
 
-        <Button
-            type="submit"
+        <Button type="submit"
             className="w-full"    
         >
             Sign In
