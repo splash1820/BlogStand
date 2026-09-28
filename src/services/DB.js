@@ -17,7 +17,7 @@ class DBService{
     }
 
 
-    async addBlog(slug,{title,featuredImage,content}){
+    async addBlog(slug,{title,featuredImage,content,userId}){
         try {
             const result = await this.tableDB.createRow({
                 databaseId:config.appwriteDBId,
@@ -28,7 +28,8 @@ class DBService{
                     "slug":slug,
                     "featuredImage":featuredImage, //to be fetched from storage
                     "status":true,
-                    "content":content
+                    "content":content,
+                    "userId":userId
                 }
             });
             return result;
@@ -97,7 +98,24 @@ class DBService{
                 tableId:config.appwriteTableId,
                 queries:[
                     Query.select(["title","featuredImage","slug"]),
-                    Query.equal("status",["false"])
+                    Query.equal("status",["true"])
+                ]
+            });
+
+            return result;
+        } catch (error) {
+            console.error("failed to get All blogs: ",error);
+        }
+    }
+
+    async getBlogsByUserId(userId){
+        try {
+            const result = await this.tableDB.listRows({
+                databaseId:config.appwriteDBId,
+                tableId:config.appwriteTableId,
+                queries:[
+                    Query.select(["title","featuredImage","slug","status"]),
+                    Query.equal("userId",userId)
                 ]
             });
 
@@ -107,6 +125,8 @@ class DBService{
         }
     }
 }
+
+
 
 const dbService =  new DBService();
 
