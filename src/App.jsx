@@ -25,9 +25,8 @@ function App() {
       <div className='w-full'>  
         <Header/>
         <main>
-          TODO: {/* <Outlet/> */}
+          <Outlet />
         </main>
-        <InputField labelText="input field"/>
         <Footer/>
         
       </div>
